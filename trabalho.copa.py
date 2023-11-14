@@ -79,6 +79,7 @@ def get_vitorias_visitante():
     
     
 #grupoA = list(filter(load_dados.))
+#teste
 
     
             
