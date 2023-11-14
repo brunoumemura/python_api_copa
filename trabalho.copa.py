@@ -6,7 +6,7 @@ class Gol:
     nome_jogador: str
     minuto: int
 
-    def __repr__(self) -> str:
+    def _repr_(self) -> str:
         return self.nome_jogador + " " + str(self.minuto)
 
 @dataclass
@@ -23,7 +23,7 @@ class Partida:
     def contem(self, codigo_time: str) -> bool:
         return self.mandante == codigo_time or self.visitante == codigo_time
 
-    def __repr__(self) -> str:
+    def _repr_(self) -> str:
         return (
             self.fase+ " " +
             self.mandante + " " + str(self.gols_mandante) 
@@ -31,7 +31,6 @@ class Partida:
                 + str(self.gols_visitante) + " " + self.visitante)
 
 PARTIDAS: list[Partida] = []
-#criado a varivel onde contem o link do conteudo da API
 URL: str = "https://raw.githubusercontent.com/leandroflores/api-world-cup/main/results_2018"
 
 def load_dados():
@@ -47,9 +46,13 @@ def load_dados():
             visitante = partida["team2"]["code"]
             gols_mandante = partida["score1"]
             gols_visitante = partida["score2"]
+            if "group" in partida:
+                fase = partida["group"]
+            else:
+                fase = rodada["name"]
 
             gols: list[Gol] = []
-            todos_os_gols: list[dict] = partida["goals1"] + partida["goals2"] + "n"
+            todos_os_gols: list[dict] = partida["goals1"] + partida["goals2"]
             for gol in todos_os_gols:
                 gols.append(
                     Gol(gol["name"], gol["minute"])
@@ -68,18 +71,8 @@ def load_dados():
 
             PARTIDAS.append(partida)
             
-#filter (filtro)
-def get_vitorias_visitante():
-    load_dados()
-    if "group" in partida:
-        fase = partida["group"]
-    else:
-        fase = rodada["name"]
+#maps (filtro)
 
-    
-    
-#grupoA = list(filter(load_dados.))
-#teste
 
     
             
@@ -121,31 +114,6 @@ def get_gols_jogador(nome_jogador: str) -> list[Gol]:
     return gols_jogador
 
 load_dados()
-
-def case1():
-    return "Jogos realizados separados por grupo."
-
-def case2():
-    return "Você escolheu a opção 2."
-
-def case3():
-    return "Você escolheu a opção 3."
-
-def default():
-    return "Opção inválida."
-
-def switch_case(case):
-    switch_dict = {
-        1: case1,
-        2: case2,
-        3: case3
-    }
-    return switch_dict.get(case, default)()
-
-# Exemplo de uso:
-opcao = 2
-resultado = switch_case(opcao)
-print(resultado)
 # print(len(PARTIDAS))
 print(PARTIDAS)
 

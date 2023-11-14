@@ -1,0 +1,35 @@
+            gols: list[Gol] = []
+            todos_os_gols: list[dict] = partida["goals1"] + partida["goals2"] + "n"
+            for gol in todos_os_gols:
+                gols.append(
+                    Gol(gol["name"], gol["minute"])
+                )
+                
+                
+def case1(): 
+    load_dados()   
+    return "1-Jogos realizados separados por grupo."
+
+def case2():
+    return "Você escolheu a opção 2."
+
+def case3():
+    return "Você escolheu a opção 3."
+
+def default():
+    return "Opção inválida."
+
+def switch_case(case):
+    switch_dict = {
+        1: case1,
+        2: case2,
+        3: case3
+    }
+    return switch_dict.get(case, default)()
+
+# Exemplo de uso:
+opcao = 1
+resultado = switch_case(opcao)
+print(resultado)
+# print(len(PARTIDAS))
+print(PARTIDAS)
